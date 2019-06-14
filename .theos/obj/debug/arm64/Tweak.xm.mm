@@ -1,6 +1,8 @@
 #line 1 "Tweak.xm"
 #import <LocalAuthentication/LocalAuthentication.h>
 
+LAPolicy policy;
+
 
 #include <substrate.h>
 #if defined(__clang__)
@@ -22,10 +24,10 @@
 #define _LOGOS_RETURN_RETAINED
 #endif
 
-@class ZBQueueViewController; @class DownloadsTableViewController; @class ConfirmationController; 
+@class DownloadsTableViewController; @class ZBQueueViewController; @class ConfirmationController; 
 static void (*_logos_orig$_ungrouped$ZBQueueViewController$confirm$)(_LOGOS_SELF_TYPE_NORMAL ZBQueueViewController* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$_ungrouped$ZBQueueViewController$confirm$(_LOGOS_SELF_TYPE_NORMAL ZBQueueViewController* _LOGOS_SELF_CONST, SEL, id); static void (*_logos_orig$_ungrouped$ConfirmationController$confirmButtonClicked)(_LOGOS_SELF_TYPE_NORMAL ConfirmationController* _LOGOS_SELF_CONST, SEL); static void _logos_method$_ungrouped$ConfirmationController$confirmButtonClicked(_LOGOS_SELF_TYPE_NORMAL ConfirmationController* _LOGOS_SELF_CONST, SEL); static void (*_logos_orig$_ungrouped$DownloadsTableViewController$confirmQueued$)(_LOGOS_SELF_TYPE_NORMAL DownloadsTableViewController* _LOGOS_SELF_CONST, SEL, id); static void _logos_method$_ungrouped$DownloadsTableViewController$confirmQueued$(_LOGOS_SELF_TYPE_NORMAL DownloadsTableViewController* _LOGOS_SELF_CONST, SEL, id); 
 
-#line 3 "Tweak.xm"
+#line 5 "Tweak.xm"
 
 
 static void _logos_method$_ungrouped$ZBQueueViewController$confirm$(_LOGOS_SELF_TYPE_NORMAL ZBQueueViewController* _LOGOS_SELF_CONST __unused self, SEL __unused _cmd, id arg1){
@@ -33,8 +35,8 @@ static void _logos_method$_ungrouped$ZBQueueViewController$confirm$(_LOGOS_SELF_
         NSError *error = nil;  
         NSString *reason = @"Authentication Required";
  
-        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {  
-            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+        if ([context canEvaluatePolicy:policy error:&error]) {  
+            [context evaluatePolicy:policy
                     localizedReason:reason
                             reply:^(BOOL success, NSError *error) {
                                 if (success) {                                 
@@ -58,8 +60,8 @@ static void _logos_method$_ungrouped$ConfirmationController$confirmButtonClicked
         NSError *error = nil;  
         NSString *reason = @"Authentication Required";
  
-        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {  
-            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+        if ([context canEvaluatePolicy:policy error:&error]) {  
+            [context evaluatePolicy:policy
                     localizedReason:reason
                             reply:^(BOOL success, NSError *error) {
                                 if (success) {                                 
@@ -83,8 +85,8 @@ static void _logos_method$_ungrouped$DownloadsTableViewController$confirmQueued$
         NSError *error = nil;  
         NSString *reason = @"Authentication Required";
  
-        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {  
-            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+        if ([context canEvaluatePolicy:policy error:&error]) {  
+            [context evaluatePolicy:policy
                     localizedReason:reason
                             reply:^(BOOL success, NSError *error) {
                                 if (success) {                                 
@@ -100,6 +102,12 @@ static void _logos_method$_ungrouped$DownloadsTableViewController$confirmQueued$
 }
 
 
+
+
+static __attribute__((constructor)) void _logosLocalCtor_16c0be02(int __unused argc, char __unused **argv, char __unused **envp) {
+	if (kCFCoreFoundationVersionNumber >= 1240.10) policy = LAPolicyDeviceOwnerAuthentication;
+	else policy = LAPolicyDeviceOwnerAuthenticationWithBiometrics;
+}
 static __attribute__((constructor)) void _logosLocalInit() {
 {Class _logos_class$_ungrouped$ZBQueueViewController = objc_getClass("ZBQueueViewController"); MSHookMessageEx(_logos_class$_ungrouped$ZBQueueViewController, @selector(confirm:), (IMP)&_logos_method$_ungrouped$ZBQueueViewController$confirm$, (IMP*)&_logos_orig$_ungrouped$ZBQueueViewController$confirm$);Class _logos_class$_ungrouped$ConfirmationController = objc_getClass("ConfirmationController"); MSHookMessageEx(_logos_class$_ungrouped$ConfirmationController, @selector(confirmButtonClicked), (IMP)&_logos_method$_ungrouped$ConfirmationController$confirmButtonClicked, (IMP*)&_logos_orig$_ungrouped$ConfirmationController$confirmButtonClicked);Class _logos_class$_ungrouped$DownloadsTableViewController = objc_getClass("DownloadsTableViewController"); MSHookMessageEx(_logos_class$_ungrouped$DownloadsTableViewController, @selector(confirmQueued:), (IMP)&_logos_method$_ungrouped$DownloadsTableViewController$confirmQueued$, (IMP*)&_logos_orig$_ungrouped$DownloadsTableViewController$confirmQueued$);} }
-#line 77 "Tweak.xm"
+#line 85 "Tweak.xm"

@@ -1,14 +1,16 @@
 #import <LocalAuthentication/LocalAuthentication.h>
 
+LAPolicy policy = LAPolicyDeviceOwnerAuthentication;
+NSError *error = nil;  
+NSString *reason = @"Authentication Required";
+
 %hook ZBQueueViewController
 
 -(void)confirm:(id)arg1{
 	LAContext *context = [[LAContext alloc] init];  
-        NSError *error = nil;  
-        NSString *reason = @"Authentication Required";
  
-        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {  
-            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+        if ([context canEvaluatePolicy:policy error:&error]) {  
+            [context evaluatePolicy:policy
                     localizedReason:reason
                             reply:^(BOOL success, NSError *error) {
                                 if (success) {                                 
@@ -29,11 +31,9 @@
 
 -(void)confirmButtonClicked{
         LAContext *context = [[LAContext alloc] init];  
-        NSError *error = nil;  
-        NSString *reason = @"Authentication Required";
  
-        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {  
-            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+        if ([context canEvaluatePolicy:policy error:&error]) {  
+            [context evaluatePolicy:policy
                     localizedReason:reason
                             reply:^(BOOL success, NSError *error) {
                                 if (success) {                                 
@@ -54,11 +54,9 @@
 
 -(void)confirmQueued:(id)arg1{
         LAContext *context = [[LAContext alloc] init];  
-        NSError *error = nil;  
-        NSString *reason = @"Authentication Required";
  
-        if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:&error]) {  
-            [context evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics
+        if ([context canEvaluatePolicy:policy error:&error]) {  
+            [context evaluatePolicy:policy
                     localizedReason:reason
                             reply:^(BOOL success, NSError *error) {
                                 if (success) {                                 
