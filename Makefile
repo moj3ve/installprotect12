@@ -1,6 +1,6 @@
 include $(THEOS)/makefiles/common.mk
 
-Pre-Depends: firmware (>= 9.0)
+Pre-Depends: firmware (>= 10.0)
 
 TWEAK_NAME = InstallProtect12
 InstallProtect12_FILES = Tweak.xm
