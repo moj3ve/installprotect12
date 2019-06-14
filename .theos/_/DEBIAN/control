@@ -1,0 +1,10 @@
+Package: com.castyte.installprotect12
+Name: InstallProtect12
+Depends: mobilesubstrate
+Architecture: iphoneos-arm
+Description: Require biometric to manage packages in Cydia and Zebra
+Maintainer: Castyte
+Author: Castyte
+Section: Tweaks
+Version: 1.1
+Installed-Size: 136
